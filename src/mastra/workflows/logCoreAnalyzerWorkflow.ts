@@ -1,3 +1,4 @@
+import { createTool } from '@mastra/core';
 import { Agent } from '@mastra/core/agent';
 import { createWorkflow, createStep } from '@mastra/core/workflows';
 import { MDocument } from '@mastra/rag';
@@ -449,3 +450,32 @@ export const logCoreAnalyzerWorkflow = createWorkflow({
   .then(chunkStep)
   .then(decideAndRunStep)
   .commit();
+
+export const logCoreAnalyzerTool: ReturnType<typeof createTool> = createTool({
+  id: 'logCoreAnalyzerTool',
+  description:
+    logCoreAnalyzerWorkflow.description ||
+    'Analyzes log files and text content',
+  inputSchema: logCoreAnalyzerWorkflow.inputSchema,
+  outputSchema: logCoreAnalyzerWorkflow.outputSchema,
+  execute: async ({ context, runtimeContext, tracingContext }) => {
+    const run = await logCoreAnalyzerWorkflow.createRunAsync({});
+
+    const runResult = await run.start({
+      inputData: context,
+      runtimeContext,
+      tracingContext,
+    });
+    if (runResult.status === 'success') {
+      return runResult.result;
+    }
+    if (runResult.status === 'failed') {
+      throw new Error(
+        `Log analyzer workflow failed: ${runResult.error.message}`
+      );
+    }
+    throw new Error(
+      `Unexpected workflow execution status: ${runResult.status}. Expected 'success' or 'failed'.`
+    );
+  },
+});

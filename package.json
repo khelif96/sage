@@ -31,8 +31,8 @@
     "mastra:start": "node --import=./.mastra/output/instrumentation.mjs .mastra/output/index.mjs",
     "mastra:full": "yarn mastra:build && yarn mastra:start",
     "prepare": "husky",
-    "eval": "npx braintrust eval --no-send-logs src/evals/",
-    "eval:send_to_braintrust": "npx braintrust eval src/evals/"
+    "eval": "ENABLE_SENTRY_PROFILING=false npx braintrust eval --no-send-logs src/evals/",
+    "eval:send_to_braintrust": "ENABLE_SENTRY_PROFILING=false npx braintrust eval src/evals/"
   },
   "dependencies": {
     "@ai-sdk/azure": "^2.0.24",
@@ -91,7 +91,7 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jsdoc": "^51.3.4",
+    "eslint-plugin-jsdoc": "^54.3.1",
     "eslint-plugin-prettier": "^5.5.1",
     "eslint-plugin-sort-destructure-keys": "^2.0.0",
     "globals": "^16.3.0",
@@ -106,7 +106,7 @@
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.6",
-    "typescript-eslint": "^8.38.0",
+    "typescript-eslint": "^8.42.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
   },

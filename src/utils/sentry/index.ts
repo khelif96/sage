@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/node';
-import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import { config } from '../../config';
 import { logger } from '../logger';
 
@@ -20,7 +19,7 @@ export interface SentryTag {
 class SentryService {
   private initialized = false;
 
-  initialize(): void {
+  async initialize(): Promise<void> {
     if (!config.sentry.enabled) {
       logger.info('Sentry is disabled');
       return;
@@ -46,7 +45,6 @@ class SentryService {
         tracesSampleRate: config.sentry.tracesSampleRate,
         attachStacktrace: config.sentry.attachStacktrace,
         integrations: [
-          nodeProfilingIntegration(),
           Sentry.httpIntegration(),
           Sentry.expressIntegration(),
           Sentry.mongoIntegration(),
