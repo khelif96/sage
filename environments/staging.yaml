@@ -52,18 +52,3 @@ envSecrets:
 
 serviceAccount:
   enabled: true
-  serviceEntitlementRequests:
-   - name: sage-web-app-to-devprod-platform-otel-collector-web-app
-     serviceCatalogEntryRef:
-       name: otel-collector-web-app
-       namespace: devprod-platform
-     requestedPaths:
-     - methods:
-       - POST
-       paths:
-       - /v1/logs
-       - /v1/traces
-       - /v1/logs
-       - /opentelemetry.proto.collector.trace.v1.TraceService/Export
-       - /opentelemetry.proto.collector.logs.v1.LogsService/Export
-       - /opentelemetry.proto.collector.metrics.v1.MetricsService/Export
